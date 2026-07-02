@@ -1,7 +1,7 @@
 {
   "report": "Candosa — Client Summary Daily Trend",
   "source": "candobro (Slack) — reconstructed from production database and event logs",
-  "lastUpdated": "2026-06-30",
+  "lastUpdated": "2026-07-01",
   "metrics": [
     {"key":"activos","label":"Active customers (total)","sub":"Migrated + non-migrated","color":"#11212d","overlay":"noMigrados","overlayLabel":"Activated (non-migrated)","explain":"Total active customers (migrated plus non-migrated) versus those already activated — the gap between the lines is migrated still pending activation.","section":"Customer summary"},
     {"key":"onboarding","label":"Onboarding","sub":"Assets without assigned activity","color":"#C08B5E","share":true,"explain":"Clients still in onboarding (no activity assigned yet) — held flat at 24 all month as completions kept pace with new signups.","section":"Customer summary"},
@@ -15,7 +15,6 @@
     {"key":"taxDocs","label":"Total tax documents in system","sub":"Cumulative documents stored","color":"#B07D2B","chartOnly":true,"full":true,"explain":"Running total of tax documents held in the system — steady client uploads plus big step-ups on the migration import days (Jun 10 and Jun 25), reaching 20,121 by month-end.","section":"Client activity"}
   ],
   "days": [
-    {"date":"2026-06-01","label":"Jun 1","activos":29,"onboarding":24,"migrados":0,"noMigrados":29,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Start of the month baseline.","uploads":1,"waClients":3,"waMessages":2859,"taxDocs":415},
     {"date":"2026-06-02","label":"Jun 2","activos":30,"onboarding":24,"migrados":0,"noMigrados":30,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Created: 1 new active client.","uploads":12,"waClients":10,"waMessages":3005,"taxDocs":434},
     {"date":"2026-06-03","label":"Jun 3","activos":30,"onboarding":24,"migrados":0,"noMigrados":30,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Stable.","uploads":10,"waClients":14,"waMessages":3221,"taxDocs":439},
     {"date":"2026-06-04","label":"Jun 4","activos":32,"onboarding":24,"migrados":0,"noMigrados":32,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Created: 2 new active clients.","uploads":9,"waClients":11,"waMessages":3393,"taxDocs":444},
@@ -44,6 +43,7 @@
     {"date":"2026-06-27","label":"Jun 27","activos":296,"onboarding":24,"migrados":132,"noMigrados":164,"trimestre":1,"pctOnboarded":51,"migAct":137,"migImp":269,"milestone":"Weekend. 2 migrated clients activated.","uploads":12,"waClients":7,"waMessages":6996,"taxDocs":19253},
     {"date":"2026-06-28","label":"Jun 28","activos":296,"onboarding":24,"migrados":119,"noMigrados":177,"trimestre":1,"pctOnboarded":56,"migAct":150,"migImp":269,"milestone":"Weekend. 13 migrated clients activated.","uploads":22,"waClients":20,"waMessages":7166,"taxDocs":19346},
     {"date":"2026-06-29","label":"Jun 29","activos":299,"onboarding":24,"migrados":99,"noMigrados":200,"trimestre":2,"pctOnboarded":63,"migAct":170,"migImp":269,"milestone":"Activated: 20 migrated clients; 2nd Q2 tax presentation complete.","uploads":69,"waClients":76,"waMessages":7603,"taxDocs":19568},
-    {"date":"2026-06-30","label":"Jun 30","activos":301,"onboarding":24,"migrados":89,"noMigrados":212,"trimestre":4,"pctOnboarded":67,"migAct":180,"migImp":269,"milestone":"Activated: 10 migrated clients; 3rd & 4th Q2 tax presentations complete. 67% of all migrated clients now onboarded (180 of 269).","uploads":72,"waClients":76,"waMessages":8153,"taxDocs":20121}
+    {"date":"2026-06-30","label":"Jun 30","activos":301,"onboarding":24,"migrados":89,"noMigrados":212,"trimestre":4,"pctOnboarded":67,"migAct":180,"migImp":269,"milestone":"Activated: 10 migrated clients; 3rd & 4th Q2 tax presentations complete. 67% of all migrated clients now onboarded (180 of 269).","uploads":72,"waClients":76,"waMessages":8153,"taxDocs":20121},
+    {"date":"2026-07-01","label":"Jul 1","activos":301,"onboarding":24,"migrados":89,"noMigrados":212,"trimestre":4,"pctOnboarded":67,"migAct":180,"migImp":269,"milestone":"New Q3 2026 quarter opens: 3 Q2 tax filings finalized; first Q3 Stripe subscription invoices paid.","uploads":null,"waClients":null,"waMessages":null,"taxDocs":null}
   ]
 }
