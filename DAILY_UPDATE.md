@@ -78,6 +78,16 @@ Point the daily routine at this prompt (collapse "daily report a/b" into this on
 
 > Update the Candosa daily report. Open the candobro Slack DM (channel
 > `D0BBBH668TE`) and ask for **today's single-day row** exactly as specified in
-> `DAILY_UPDATE.md`. If candobro is rate-limited, wait and retry. Save the JSON
-> reply to `today.json`, run `bin/update-day.sh`, and confirm the push. Pull
-> **one day only** — never re-pull 30.
+> `DAILY_UPDATE.md` (pull **one day only** — never re-pull 30).
+>
+> **Retry until candobro answers with data.** After sending, wait ~60s and read
+> the DM. If candobro replies with the "I'm being rate-limited" message (or hasn't
+> replied yet), wait ~2–3 minutes and resend, and repeat — keep going for up to
+> ~2 hours (~30–40 attempts). Do not give up after the first failure; only stop
+> early once you have valid JSON.
+>
+> When candobro returns the JSON, save it to `today.json`, run
+> `bin/update-day.sh` (merge → rebuild → commit → push to `main`), and Slack
+> Dennis (channel_id `U0AKELYLUCX`) a one-line confirmation with the link
+> https://dennis643.github.io/charts/. If candobro still hasn't cleared after
+> ~2 hours, Slack Dennis to say so and stop.
