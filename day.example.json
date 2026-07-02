@@ -1,0 +1,15 @@
+{
+  "date": "2026-07-02",
+  "activos": 301,
+  "onboarding": 24,
+  "migrados": 89,
+  "noMigrados": 212,
+  "trimestre": 4,
+  "migAct": 180,
+  "migImp": 269,
+  "uploads": 40,
+  "waClients": 50,
+  "waMessages": 8300,
+  "taxDocs": 20200,
+  "milestone": "One short sentence describing today."
+}

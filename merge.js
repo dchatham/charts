@@ -25,6 +25,15 @@ if (!day.date || !/^\d{4}-\d{2}-\d{2}$/.test(day.date)) {
   console.error('ERROR: the day needs a "date" in YYYY-MM-DD form.');
   process.exit(1);
 }
+// Drop null/undefined fields so a partial (per-section) update never clobbers an
+// existing value with a blank. Re-merge the same date later to fill fields in.
+for (const k of Object.keys(day)) if (day[k] == null) delete day[k];
+
+// Derive the migrant activation rate for the chart if candobro didn't send it.
+if (day.pctOnboarded == null && day.migImp) {
+  day.pctOnboarded = Math.round((day.migAct || 0) / day.migImp * 100);
+}
+
 if (!day.label) day.label = new Date(day.date + 'T12:00:00Z')
   .toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
 
