@@ -1,0 +1,5 @@
+# Crawling is allowed so search engines can read and honor the
+# per-page <meta name="robots" content="noindex,nofollow"> directive.
+# The report is intentionally unlisted: reachable by URL, not indexed.
+User-agent: *
+Disallow:
