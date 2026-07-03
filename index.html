@@ -163,7 +163,6 @@ const DATA = {
   "lastUpdated": "2026-07-03",
   "metrics": [
     {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated) versus those already activated \u2014 the gap between the lines is migrated still pending activation.", "section": "Customer summary"},
-    {"key": "onboarding", "label": "Onboarding", "sub": "Assets without assigned activity", "color": "#C08B5E", "share": true, "explain": "Clients still in onboarding (no activity assigned yet) \u2014 held flat at 24 all month as completions kept pace with new signups.", "section": "Customer summary"},
     {"key": "migrados", "label": "Migrated", "sub": "", "color": "#E07A5F", "share": true, "explain": "Imported migrated clients not yet activated \u2014 spikes on each import (Jun 10 and Jun 25), then drains as the team activates them.", "section": "Customer summary"},
     {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of tax documents held in the system \u2014 steady client uploads plus big step-ups on the migration import days (Jun 10 and Jun 25), reaching 20,121 by month-end.", "section": "Client activity"}
   ],
@@ -200,7 +199,7 @@ const DATA = {
     {"date": "2026-07-03", "activos": 480, "noMigrados": 307, "migrados": 173, "onboarding": 17, "milestone": "Active volume 480 (307 activated + 173 migrated pending); 17 self-registered clients in onboarding.", "label": "Jul 3", "taxDocs": 71930, "workflow": {"total": 491, "stages": [{"label": "Uploading documents", "desc": "Documents still being collected", "n": 421}, {"label": "Processing documents", "desc": "All documents reviewed / being processed", "n": 40}, {"label": "Processing results", "desc": "Review complete, tax results generating", "n": 3}, {"label": "Awaiting client confirmation", "desc": "Awaiting client's OK", "n": 1}, {"label": "Preparing final tax obligation", "desc": "Review complete, ready for filing", "n": 3}, {"label": "Completed", "desc": "Quarterly filing fully finished", "n": 23}]}}
   ]
 };
-const BUILT = "Jul 3, 2026, 1:38 PM CDT";
+const BUILT = "Jul 3, 2026, 1:39 PM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');

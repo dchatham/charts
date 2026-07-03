@@ -4,7 +4,6 @@
   "lastUpdated": "2026-07-03",
   "metrics": [
     {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated) versus those already activated \u2014 the gap between the lines is migrated still pending activation.", "section": "Customer summary"},
-    {"key": "onboarding", "label": "Onboarding", "sub": "Assets without assigned activity", "color": "#C08B5E", "share": true, "explain": "Clients still in onboarding (no activity assigned yet) \u2014 held flat at 24 all month as completions kept pace with new signups.", "section": "Customer summary"},
     {"key": "migrados", "label": "Migrated", "sub": "", "color": "#E07A5F", "share": true, "explain": "Imported migrated clients not yet activated \u2014 spikes on each import (Jun 10 and Jun 25), then drains as the team activates them.", "section": "Customer summary"},
     {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of tax documents held in the system \u2014 steady client uploads plus big step-ups on the migration import days (Jun 10 and Jun 25), reaching 20,121 by month-end.", "section": "Client activity"}
   ],
