@@ -135,9 +135,6 @@
     </div>
   </header>
 
-  <h2>Time to Presentation</h2>
-  <div class="charts" style="margin-bottom:8px"><div class="card full" id="turnaround"></div></div>
-
   <div class="kpis" id="kpis"></div>
 
   <div id="wf-section" style="display:none">
@@ -145,9 +142,9 @@
     <div class="charts"><div class="card full" id="workflow"></div></div>
   </div>
 
-  <h2>30-Day Trend by Metric</h2>
+  <h2>Metrics</h2>
   <div class="detail" id="detail"></div>
-  <div class="charts" id="charts"></div>
+  <div class="charts" id="charts"><div class="card" id="turnaround"></div></div>
 
   <h2>Key Insights</h2>
   <ul class="insights">
@@ -167,8 +164,8 @@ const DATA = {
   "source": "candobro (Slack) \u2014 reconstructed from production database and event logs",
   "lastUpdated": "2026-07-03",
   "metrics": [
-    {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated.", "section": "Customer summary"},
-    {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of all tax documents held in the system.", "section": "Client activity"}
+    {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated."},
+    {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "explain": "Running total of all tax documents held in the system."}
   ],
   "days": [
     {"date": "2026-06-04", "label": "Jun 4", "activos": 32, "onboarding": 24, "migrados": 0, "noMigrados": 32, "trimestre": 0, "pctOnboarded": 0, "migAct": 0, "migImp": 0, "milestone": "Created: 2 new active clients.", "uploads": 9, "waClients": 11, "waMessages": 3393, "taxDocs": 444, "daysToFiling": 13.4},
@@ -203,7 +200,7 @@ const DATA = {
     {"date": "2026-07-03", "activos": 480, "noMigrados": 307, "migrados": 173, "onboarding": 17, "milestone": "Active volume 480 (307 activated + 173 migrated pending); 17 self-registered clients in onboarding.", "label": "Jul 3", "taxDocs": 71930, "workflow": {"total": 491, "stages": [{"label": "Uploading documents", "desc": "Documents still being collected", "n": 421}, {"label": "Processing documents", "desc": "All documents reviewed / being processed", "n": 40}, {"label": "Processing results", "desc": "Review complete, tax results generating", "n": 3}, {"label": "Awaiting client confirmation", "desc": "Awaiting client's OK", "n": 1}, {"label": "Preparing final tax obligation", "desc": "Review complete, ready for filing", "n": 3}, {"label": "Completed", "desc": "Quarterly filing fully finished", "n": 23}]}, "daysToFiling": 8.9}
   ]
 };
-const BUILT = "Jul 3, 2026, 2:19 PM CDT";
+const BUILT = "Jul 3, 2026, 2:24 PM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
@@ -268,7 +265,7 @@ function setActive(i){ updaters.forEach(u => u(i)); renderDetail(i); }
 
 // A non-full card sits in a 2-col grid. If a section has an odd number of them,
 // the last one is orphaned in its own row — so span it full to close the gap.
-const isForcedFull = (m, idx) => idx === 0 || m.full;
+const isForcedFull = (m, idx) => !!m.full;
 const halfCountBySection = {};
 metrics.forEach((m, idx) => {
   if (isForcedFull(m, idx)) return;

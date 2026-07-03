@@ -3,8 +3,8 @@
   "source": "candobro (Slack) \u2014 reconstructed from production database and event logs",
   "lastUpdated": "2026-07-03",
   "metrics": [
-    {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated.", "section": "Customer summary"},
-    {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of all tax documents held in the system.", "section": "Client activity"}
+    {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated."},
+    {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "explain": "Running total of all tax documents held in the system."}
   ],
   "days": [
     {"date": "2026-06-04", "label": "Jun 4", "activos": 32, "onboarding": 24, "migrados": 0, "noMigrados": 32, "trimestre": 0, "pctOnboarded": 0, "migAct": 0, "migImp": 0, "milestone": "Created: 2 new active clients.", "uploads": 9, "waClients": 11, "waMessages": 3393, "taxDocs": 444, "daysToFiling": 13.4},

@@ -135,9 +135,6 @@
     </div>
   </header>
 
-  <h2>Time to Presentation</h2>
-  <div class="charts" style="margin-bottom:8px"><div class="card full" id="turnaround"></div></div>
-
   <div class="kpis" id="kpis"></div>
 
   <div id="wf-section" style="display:none">
@@ -145,9 +142,9 @@
     <div class="charts"><div class="card full" id="workflow"></div></div>
   </div>
 
-  <h2>30-Day Trend by Metric</h2>
+  <h2>Metrics</h2>
   <div class="detail" id="detail"></div>
-  <div class="charts" id="charts"></div>
+  <div class="charts" id="charts"><div class="card" id="turnaround"></div></div>
 
   <h2>Key Insights</h2>
   <ul class="insights">
@@ -228,7 +225,7 @@ function setActive(i){ updaters.forEach(u => u(i)); renderDetail(i); }
 
 // A non-full card sits in a 2-col grid. If a section has an odd number of them,
 // the last one is orphaned in its own row — so span it full to close the gap.
-const isForcedFull = (m, idx) => idx === 0 || m.full;
+const isForcedFull = (m, idx) => !!m.full;
 const halfCountBySection = {};
 metrics.forEach((m, idx) => {
   if (isForcedFull(m, idx)) return;
