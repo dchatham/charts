@@ -69,8 +69,8 @@
   .pt-val{fill:var(--text);font-size:12px;font-weight:600}
   .focusline{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3;pointer-events:none}
   .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:12px 16px;margin-bottom:18px;font-size:13px;display:flex;flex-wrap:wrap;
-    gap:6px 20px;align-items:center;min-height:24px}
+    padding:16px 20px;margin-bottom:18px;font-size:13px;display:flex;flex-wrap:wrap;
+    gap:12px 34px;align-items:center;min-height:24px}
   .detail .dt-date{font-family:var(--font-display);font-weight:600;font-size:16px;
     color:var(--text);margin-right:4px}
   .detail .dt-hint{color:var(--faint);font-weight:400;font-family:var(--font);font-size:12px}
@@ -79,6 +79,18 @@
   .detail .dt-dot{display:inline-block;width:8px;height:8px;border-radius:50%;
     vertical-align:middle;margin-right:5px}
   .detail .dt-note{flex-basis:100%;color:var(--faint);margin-top:2px;line-height:1.4}
+  .wf-total{color:var(--faint);font-size:12px;margin:0 0 10px}
+  .wf-pie-wrap{display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+  .wf-pie{width:260px;height:260px;flex:0 0 auto}
+  .wf-center-n{fill:var(--text);font-family:var(--font-display);font-size:34px;font-weight:600}
+  .wf-center-l{fill:var(--faint);font-size:12px}
+  .wf-legend{display:grid;gap:12px;flex:1 1 300px;min-width:260px}
+  .wf-leg{display:flex;align-items:flex-start;gap:10px;font-size:13px}
+  .wf-dot{width:11px;height:11px;border-radius:3px;margin-top:3px;flex:0 0 auto}
+  .wf-leg-txt{display:flex;flex-direction:column;line-height:1.35}
+  .wf-leg-top b{color:var(--text)}
+  .wf-leg-n{color:var(--faint);font-weight:600;margin-left:4px}
+  .wf-desc{color:var(--faint);font-size:11.5px}
 
   ul.insights{list-style:none;padding:0;margin:0;display:grid;gap:12px}
   ul.insights li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
@@ -108,6 +120,11 @@
   </header>
 
   <div class="kpis" id="kpis"></div>
+
+  <div id="wf-section" style="display:none">
+    <h2>Tax Filing Workflow</h2>
+    <div class="charts"><div class="card full" id="workflow"></div></div>
+  </div>
 
   <h2>30-Day Trend by Metric</h2>
   <div class="detail" id="detail"></div>
@@ -275,6 +292,42 @@ metrics.forEach((m, idx) => {
 
 setActive(days.length-1);
 charts.addEventListener('pointerleave', () => setActive(days.length-1));
+
+// Tax filing workflow — point-in-time donut (latest day carrying a workflow snapshot).
+const wfRow = [...days].reverse().find(d => d.workflow);
+if (wfRow) {
+  const wf = wfRow.workflow;
+  const palette = ['#3E7CB1','#C08B5E','#7C52FF','#E07A5F','#B07D2B','#6A8E7F'];
+  document.getElementById('wf-section').style.display = '';
+  const box = document.getElementById('workflow');
+  box.innerHTML =
+    `<h3>Client workflow stages <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; ${wfRow.label}</span></h3>` +
+    `<p class="wf-total">${fmt(wf.total)} total active workflows</p>`;
+
+  const stages = wf.stages;
+  const total = d3.sum(stages, s=>s.n);
+  const wrap = d3.select(box).append('div').attr('class','wf-pie-wrap');
+  const size = 260, R = size/2, r = R*0.6;
+  const svg = wrap.append('svg').attr('viewBox',`0 0 ${size} ${size}`)
+    .attr('class','wf-pie').attr('role','img').attr('aria-label','Client workflow stage distribution');
+  const gp = svg.append('g').attr('transform',`translate(${R},${R})`);
+  const pie = d3.pie().sort(null).value(s=>s.n);
+  const arc = d3.arc().innerRadius(r).outerRadius(R);
+  gp.selectAll('path').data(pie(stages)).join('path')
+    .attr('d',arc).attr('fill',(d,i)=>palette[i % palette.length])
+    .attr('stroke','var(--panel)').attr('stroke-width',2);
+  gp.append('text').attr('text-anchor','middle').attr('class','wf-center-n').attr('y',-1).text(fmt(total));
+  gp.append('text').attr('text-anchor','middle').attr('class','wf-center-l').attr('y',17).text('total');
+
+  const leg = wrap.append('div').attr('class','wf-legend');
+  stages.forEach((s,i)=>{
+    const pct = total ? Math.round(s.n/total*100) : 0;
+    leg.append('div').attr('class','wf-leg').html(
+      `<span class="wf-dot" style="background:${palette[i % palette.length]}"></span>` +
+      `<span class="wf-leg-txt"><span class="wf-leg-top"><b>${s.label}</b> <span class="wf-leg-n">${fmt(s.n)} &middot; ${pct}%</span></span>` +
+      `<span class="wf-desc">${s.desc}</span></span>`);
+  });
+}
 
 document.getElementById('footer').innerHTML =
   `Generated from candobro's daily reconstruction of the production database and event logs. ` +
