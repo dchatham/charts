@@ -91,6 +91,8 @@
   .wf-leg-top b{color:var(--text)}
   .wf-leg-n{color:var(--faint);font-weight:600;margin-left:4px}
   .wf-desc{color:var(--faint);font-size:11.5px}
+  .tr-label{fill:var(--text);font-size:13px;font-weight:600}
+  .tr-val{fill:var(--text);font-size:12.5px;font-weight:600}
 
   ul.insights{list-style:none;padding:0;margin:0;display:grid;gap:12px}
   ul.insights li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
@@ -133,6 +135,9 @@
     </div>
   </header>
 
+  <h2>Time to Presentation</h2>
+  <div class="charts" style="margin-bottom:8px"><div class="card full" id="turnaround"></div></div>
+
   <div class="kpis" id="kpis"></div>
 
   <div id="wf-section" style="display:none">
@@ -164,8 +169,7 @@ const DATA = {
   "metrics": [
     {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated.", "section": "Customer summary"},
     {"key": "migrados", "label": "Migrated", "sub": "", "color": "#E07A5F", "share": true, "explain": "Migrated clients that have been imported but are not yet activated.", "section": "Customer summary"},
-    {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of all tax documents held in the system.", "section": "Client activity"},
-    {"key": "daysToFiling", "label": "Avg days: uploads done \u2192 presentation", "sub": "Client marks quarter over until filing prep", "unit": " d", "color": "#3D8168", "chartOnly": true, "full": true, "explain": "Average time from a client marking their quarter complete (uploads stopped) until the quarter reaches presentation.", "section": "Client activity"}
+    {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of all tax documents held in the system.", "section": "Client activity"}
   ],
   "days": [
     {"date": "2026-06-04", "label": "Jun 4", "activos": 32, "onboarding": 24, "migrados": 0, "noMigrados": 32, "trimestre": 0, "pctOnboarded": 0, "migAct": 0, "migImp": 0, "milestone": "Created: 2 new active clients.", "uploads": 9, "waClients": 11, "waMessages": 3393, "taxDocs": 444, "daysToFiling": 13.4},
@@ -200,7 +204,7 @@ const DATA = {
     {"date": "2026-07-03", "activos": 480, "noMigrados": 307, "migrados": 173, "onboarding": 17, "milestone": "Active volume 480 (307 activated + 173 migrated pending); 17 self-registered clients in onboarding.", "label": "Jul 3", "taxDocs": 71930, "workflow": {"total": 491, "stages": [{"label": "Uploading documents", "desc": "Documents still being collected", "n": 421}, {"label": "Processing documents", "desc": "All documents reviewed / being processed", "n": 40}, {"label": "Processing results", "desc": "Review complete, tax results generating", "n": 3}, {"label": "Awaiting client confirmation", "desc": "Awaiting client's OK", "n": 1}, {"label": "Preparing final tax obligation", "desc": "Review complete, ready for filing", "n": 3}, {"label": "Completed", "desc": "Quarterly filing fully finished", "n": 23}]}, "daysToFiling": 8.9}
   ]
 };
-const BUILT = "Jul 3, 2026, 2:13 PM CDT";
+const BUILT = "Jul 3, 2026, 2:17 PM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
@@ -366,6 +370,35 @@ metrics.forEach((m, idx) => {
 
 setActive(days.length-1);
 charts.addEventListener('pointerleave', () => setActive(days.length-1));
+
+// Time to presentation — mock single-point snapshot (avg vs median turnaround in days).
+(function(){
+  const box = document.getElementById('turnaround');
+  if (!box) return;
+  const data = [
+    {label:'Average', days:1.75, txt:'1 day 18 hours (~42h)'},
+    {label:'Median',  days:1.63, txt:'1 day 15 hours (~39h)'},
+  ];
+  box.innerHTML =
+    `<h3>Avg time to presentation <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; mock</span></h3>` +
+    `<p class="explain">Time from when a client finishes uploading documents ("quarter over") until draft tax results are presented for approval.</p>`;
+  const W=1040, H=150, P={l:100, r:150, t:10, b:26}, max=3;
+  const x = d3.scaleLinear().domain([0,max]).range([P.l, W-P.r]);
+  const svg = d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%')
+    .attr('role','img').attr('aria-label','Average time to presentation in days');
+  const ticks = d3.range(0, max+1);
+  svg.append('g').selectAll('line').data(ticks).join('line')
+    .attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',P.t).attr('y2',H-P.b).attr('stroke','var(--line)');
+  svg.append('g').selectAll('text').data(ticks).join('text').attr('class','glabel')
+    .attr('x',d=>x(d)).attr('y',H-8).attr('text-anchor','middle').text(d=>d+'d');
+  const rowH=(H-P.t-P.b)/data.length;
+  const g = svg.selectAll('g.tr-row').data(data).join('g')
+    .attr('class','tr-row').attr('transform',(d,i)=>`translate(0,${P.t+i*rowH})`);
+  g.append('text').attr('class','tr-label').attr('x',0).attr('y',rowH/2+4).text(d=>d.label);
+  g.append('rect').attr('x',P.l).attr('y',rowH/2-12).attr('height',24).attr('rx',5)
+    .attr('width',d=>Math.max(2, x(d.days)-P.l)).attr('fill','#7C52FF');
+  g.append('text').attr('class','tr-val').attr('x',d=>x(d.days)+10).attr('y',rowH/2+4).text(d=>d.txt);
+})();
 
 // Tax filing workflow — point-in-time donut (latest day carrying a workflow snapshot).
 const wfRow = [...days].reverse().find(d => d.workflow);
