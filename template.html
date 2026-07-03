@@ -137,7 +137,7 @@ const cssVar = k => getComputedStyle(document.documentElement).getPropertyValue(
 const days = DATA.days;
 const metrics = DATA.metrics;
 const first = days[0], last = days[days.length-1];
-const totalBase = last.activos;
+const totalBase = ([...days].reverse().find(d => d.activos != null) || last).activos;
 
 document.getElementById('range').textContent = first.label + ' – ' + last.label + ', 2026';
 document.getElementById('updated').textContent = 'Updated ' + (BUILT || DATA.lastUpdated);
@@ -145,17 +145,25 @@ document.getElementById('updated').textContent = 'Updated ' + (BUILT || DATA.las
 // KPI cards
 const kpis = document.getElementById('kpis');
 metrics.filter(m=>!m.chartOnly).forEach(m=>{
-  const now = last[m.key], was = first[m.key], d = now - was;
-  const cls = d>0?'up':d<0?'down':'flat';
-  const sign = d>0?'▲ +':d<0?'▼ ':'■ ';
+  const lastRow = [...days].reverse().find(d => d[m.key] != null);
+  const firstRow = days.find(d => d[m.key] != null);
+  if (!lastRow) return;                               // metric has no data yet — skip its KPI
+  const now = lastRow[m.key];
   const col = cssVar('--'+m.key);
+  const hasBase = firstRow && firstRow !== lastRow && firstRow[m.key] != null;
+  const d = hasBase ? now - firstRow[m.key] : 0;
+  const cls = hasBase ? (d>0?'up':d<0?'down':'flat') : 'flat';
+  const sign = d>0?'▲ +':d<0?'▼ ':'■ ';
+  const delta = hasBase
+    ? `${sign}${fmt(Math.abs(d))} <span style="color:var(--faint);font-weight:400">vs ${firstRow.label}</span>`
+    : `<span style="color:var(--faint);font-weight:400">new</span>`;
   kpis.insertAdjacentHTML('beforeend', `
     <div class="kpi">
       <div class="accent" style="background:${col}"></div>
       <div class="lbl">${m.label}</div>
       <div class="sub">${m.sub||''}</div>
       <div class="val">${fmt(now)}${m.share ? ` <span class="ofbase">of ${fmt(totalBase)}</span>` : ''}</div>
-      <div class="delta ${cls}">${sign}${fmt(Math.abs(d))} <span style="color:var(--faint);font-weight:400">vs ${first.label}</span></div>
+      <div class="delta ${cls}">${delta}</div>
     </div>`);
 });
 
