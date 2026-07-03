@@ -175,7 +175,7 @@ const DATA = {
     {"date":"2026-07-03","activos":480,"noMigrados":307,"migrados":173,"onboarding":17,"milestone":"Active volume 480 (307 activated + 173 migrated pending); 17 self-registered clients in onboarding.","label":"Jul 3"}
   ]
 };
-const BUILT = "Jul 3, 2026, 1:26 PM CDT";
+const BUILT = "Jul 3, 2026, 1:29 PM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
@@ -192,7 +192,8 @@ document.getElementById('updated').textContent = 'Updated ' + (BUILT || DATA.las
 
 // KPI cards
 const kpis = document.getElementById('kpis');
-metrics.filter(m=>!m.chartOnly).forEach(m=>{
+const overlayKeys = new Set(metrics.map(m=>m.overlay).filter(Boolean));  // folded into their parent card
+metrics.filter(m=>!m.chartOnly && !overlayKeys.has(m.key)).forEach(m=>{
   const lastRow = [...days].reverse().find(d => d[m.key] != null);
   const firstRow = days.find(d => d[m.key] != null);
   if (!lastRow) return;                               // metric has no data yet — skip its KPI
@@ -205,12 +206,17 @@ metrics.filter(m=>!m.chartOnly).forEach(m=>{
   const delta = hasBase
     ? `${sign}${fmt(Math.abs(d))} <span style="color:var(--faint);font-weight:400">vs ${firstRow.label}</span>`
     : `<span style="color:var(--faint);font-weight:400">new</span>`;
+  let overlayHtml = '';
+  if (m.overlay) {                                    // fold the overlay metric's value into this card
+    const oRow = [...days].reverse().find(d => d[m.overlay] != null);
+    if (oRow) overlayHtml = ` <span class="ofbase">&middot; ${fmt(oRow[m.overlay])} activated</span>`;
+  }
   kpis.insertAdjacentHTML('beforeend', `
     <div class="kpi">
       <div class="accent" style="background:${col}"></div>
       <div class="lbl">${m.label}</div>
       <div class="sub">${m.sub||''}</div>
-      <div class="val">${fmt(now)}${m.share ? ` <span class="ofbase">of ${fmt(totalBase)}</span>` : ''}</div>
+      <div class="val">${fmt(now)}${m.share ? ` <span class="ofbase">of ${fmt(totalBase)}</span>` : ''}${overlayHtml}</div>
       <div class="delta ${cls}">${delta}</div>
     </div>`);
 });
