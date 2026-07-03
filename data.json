@@ -4,7 +4,6 @@
   "lastUpdated": "2026-07-03",
   "metrics": [
     {"key": "activos", "label": "Active customers (total)", "sub": "Migrated + non-migrated", "color": "#11212d", "overlay": "noMigrados", "overlayLabel": "Activated (non-migrated)", "explain": "Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated.", "section": "Customer summary"},
-    {"key": "migrados", "label": "Migrated", "sub": "", "color": "#E07A5F", "share": true, "explain": "Migrated clients that have been imported but are not yet activated.", "section": "Customer summary"},
     {"key": "taxDocs", "label": "Total tax documents in system", "sub": "Cumulative documents stored", "color": "#B07D2B", "chartOnly": true, "full": true, "explain": "Running total of all tax documents held in the system.", "section": "Client activity"}
   ],
   "days": [
