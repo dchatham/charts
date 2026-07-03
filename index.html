@@ -197,10 +197,10 @@ const DATA = {
     {"date": "2026-06-30", "label": "Jun 30", "activos": 301, "onboarding": 24, "migrados": 89, "noMigrados": 212, "trimestre": 4, "pctOnboarded": 67, "migAct": 180, "migImp": 269, "milestone": "Activated: 10 migrated clients; 3rd & 4th Q2 tax presentations complete. 67% of all migrated clients now onboarded (180 of 269).", "uploads": 72, "waClients": 76, "waMessages": 8153, "taxDocs": 20121, "daysToFiling": 9.6},
     {"date": "2026-07-01", "label": "Jul 1", "activos": 301, "onboarding": 24, "migrados": 89, "noMigrados": 212, "trimestre": 4, "pctOnboarded": 67, "migAct": 180, "migImp": 269, "milestone": "New Q3 2026 quarter opens: 3 Q2 tax filings finalized; first Q3 Stripe subscription invoices paid.", "uploads": null, "waClients": null, "waMessages": null, "taxDocs": 28770, "daysToFiling": 9.1},
     {"date": "2026-07-02", "activos": 478, "onboarding": 20, "migrados": 215, "noMigrados": 263, "trimestre": 15, "migAct": 180, "migImp": 269, "uploads": 0, "waClients": 0, "waMessages": 10330, "taxDocs": 37419, "milestone": "Corrected from live dashboard snapshot (candobro's chat bot was returning stale/erroring data).", "pctOnboarded": 67, "label": "Jul 2", "daysToFiling": 9.0},
-    {"date": "2026-07-03", "activos": 480, "noMigrados": 307, "migrados": 173, "onboarding": 17, "milestone": "Active volume 480 (307 activated + 173 migrated pending); 17 self-registered clients in onboarding.", "label": "Jul 3", "taxDocs": 71930, "workflow": {"total": 491, "stages": [{"label": "Uploading documents", "desc": "Documents still being collected", "n": 421}, {"label": "Processing documents", "desc": "All documents reviewed / being processed", "n": 40}, {"label": "Processing results", "desc": "Review complete, tax results generating", "n": 3}, {"label": "Awaiting client confirmation", "desc": "Awaiting client's OK", "n": 1}, {"label": "Preparing final tax obligation", "desc": "Review complete, ready for filing", "n": 3}, {"label": "Completed", "desc": "Quarterly filing fully finished", "n": 23}]}, "daysToFiling": 8.9}
+    {"date": "2026-07-03", "activos": 496, "noMigrados": 323, "migrados": 173, "onboarding": 17, "milestone": "All 173 migrated clients now fully activated (0 pending); 496 total active. 72,003 tax documents in system.", "label": "Jul 3", "taxDocs": 72003, "workflow": {"total": 491, "stages": [{"label": "Uploading documents", "desc": "Client is actively uploading invoice files and business receipts.", "n": 420}, {"label": "Processing documents", "desc": "Gestor is reviewing, categorizing and validating client documents.", "n": 40}, {"label": "Calculating results", "desc": "Documents fully processed; gestor is calculating tax totals and drafting filing models.", "n": 4}, {"label": "Awaiting client approval", "desc": "Calculated tax drafts and payment options sent; awaiting the client's green light.", "n": 1}, {"label": "Preparing final filing", "desc": "Client approved the draft; team is compiling final documentation for AEAT submission.", "n": 3}, {"label": "Completed filing", "desc": "Quarterly tax filing officially completed and submitted.", "n": 23}]}, "daysToFiling": 8.9}
   ]
 };
-const BUILT = "Jul 3, 2026, 2:24 PM CDT";
+const BUILT = "Jul 3, 2026, 2:42 PM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
@@ -372,17 +372,18 @@ charts.addEventListener('pointerleave', () => setActive(days.length-1));
   const box = document.getElementById('turnaround');
   if (!box) return;
   const data = [
-    {label:'Average', days:1.75, txt:'1 day 18 hours (~42h)'},
-    {label:'Median',  days:1.63, txt:'1 day 15 hours (~39h)'},
+    {label:'Average', days:148.4/24, txt:'6 days 4 hours (~148h)'},
+    {label:'Fastest', days:166/24,   txt:'6 days 22 hours'},
+    {label:'Slowest', days:196/24,   txt:'8 days 4 hours'},
   ];
   box.innerHTML =
-    `<h3>Avg time to presentation <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; mock</span></h3>` +
+    `<h3>Time to presentation <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; 2026 Q2</span></h3>` +
     `<p class="explain">Time from when a client finishes uploading documents ("quarter over") until draft tax results are presented for approval.</p>`;
-  const W=1040, H=150, P={l:100, r:150, t:10, b:26}, max=3;
+  const W=1040, H=185, P={l:100, r:160, t:10, b:26}, max=9;
   const x = d3.scaleLinear().domain([0,max]).range([P.l, W-P.r]);
   const svg = d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%')
     .attr('role','img').attr('aria-label','Average time to presentation in days');
-  const ticks = d3.range(0, max+1);
+  const ticks = d3.range(0, max+1, 2);
   svg.append('g').selectAll('line').data(ticks).join('line')
     .attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',P.t).attr('y2',H-P.b).attr('stroke','var(--line)');
   svg.append('g').selectAll('text').data(ticks).join('text').attr('class','glabel')
