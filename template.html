@@ -316,6 +316,7 @@ if (wfRow) {
   const box = document.getElementById('workflow');
   box.innerHTML =
     `<h3>Client workflow stages <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; ${wfRow.label}</span></h3>` +
+    `<p class="explain">Where every active client currently sits in the tax-filing pipeline, from document upload through to completed filing.</p>` +
     `<p class="wf-total">${fmt(wf.total)} total active workflows</p>`;
 
   const stages = wf.stages;
