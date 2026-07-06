@@ -165,7 +165,7 @@ const DATA = {
   "source": "candobro (Slack) — reconstructed from production database and event logs",
   "lastUpdated": "2026-07-06",
   "metrics": [
-    {"key":"activos","label":"Active customers (total)","sub":"Migrated + non-migrated","color":"#11212d","overlay":"noMigrados","overlayLabel":"Activated (non-migrated)","explain":"Total active customers (migrated plus non-migrated); the dashed line shows how many are already activated."},
+    {"key":"activos","label":"Active customers (total)","sub":"Migrated + non-migrated","color":"#11212d","overlay":"noMigrados","overlayLabel":"Soft-onboarded","explain":"Total active customers (migrated plus non-migrated); the dashed line shows how many are soft-onboarded."},
     {"key":"taxDocs","label":"Total tax documents in system","sub":"Cumulative documents stored","color":"#B07D2B","chartOnly":true,"explain":"Running total of all tax documents held in the system."},
     {"key":"waInbound","label":"Client WhatsApp messages (cumulative)","sub":"Running total of inbound messages","color":"#128C7E","chartOnly":true,"full":true,"explain":"Cumulative inbound messages received from clients over WhatsApp (running total across the window)."}
   ],
@@ -198,11 +198,11 @@ const DATA = {
     {"date":"2026-06-30","label":"Jun 30","activos":301,"onboarding":24,"migrados":89,"noMigrados":212,"trimestre":4,"pctOnboarded":67,"migAct":180,"migImp":269,"milestone":"Activated: 10 migrated clients; 3rd & 4th Q2 tax presentations complete. 67% of all migrated clients now onboarded (180 of 269).","uploads":72,"waClients":76,"waMessages":8153,"taxDocs":20121,"daysToFiling":9.6,"waInbound":3667},
     {"date":"2026-07-01","label":"Jul 1","activos":301,"onboarding":24,"migrados":89,"noMigrados":212,"trimestre":4,"pctOnboarded":67,"migAct":180,"migImp":269,"milestone":"New Q3 2026 quarter opens: 3 Q2 tax filings finalized; first Q3 Stripe subscription invoices paid.","uploads":null,"waClients":null,"waMessages":null,"taxDocs":28770,"daysToFiling":9.1,"waInbound":4316},
     {"date":"2026-07-02","activos":478,"onboarding":20,"migrados":215,"noMigrados":263,"trimestre":15,"migAct":180,"migImp":269,"uploads":0,"waClients":0,"waMessages":10330,"taxDocs":37419,"milestone":"Corrected from live dashboard snapshot (candobro's chat bot was returning stale/erroring data).","pctOnboarded":67,"label":"Jul 2","daysToFiling":9,"waInbound":5042},
-    {"date":"2026-07-03","activos":496,"noMigrados":323,"migrados":173,"onboarding":17,"milestone":"All 173 migrated clients now fully activated (0 pending); 496 total active. 72,003 tax documents in system.","label":"Jul 3","taxDocs":72003,"workflow":{"total":491,"stages":[{"label":"Uploading documents","desc":"Client is actively uploading invoice files and business receipts.","n":420},{"label":"Processing documents","desc":"Gestor is reviewing, categorizing and validating client documents.","n":40},{"label":"Calculating results","desc":"Documents fully processed; gestor is calculating tax totals and drafting filing models.","n":4},{"label":"Awaiting client approval","desc":"Calculated tax drafts and payment options sent; awaiting the client's green light.","n":1},{"label":"Preparing final filing","desc":"Client approved the draft; team is compiling final documentation for AEAT submission.","n":3},{"label":"Completed filing","desc":"Quarterly tax filing officially completed and submitted.","n":23}]},"daysToFiling":8.9,"waInbound":5673},
-    {"date":"2026-07-06","activos":497,"noMigrados":393,"migrados":104,"taxDocs":73899,"label":"Jul 6","milestone":"No client over-activations today; 497 total active (393 activated, 104 migrated pending activation). 73,899 tax documents stored.","workflow":{"total":491,"stages":[{"label":"Uploading documents","desc":"Client is actively uploading invoices and expense files (quarter over).","n":387},{"label":"Processing documents","desc":"Documents uploaded; our team is organizing and extracting details.","n":58},{"label":"Calculating results","desc":"Documents processed; draft tax calculations are being prepared.","n":5},{"label":"Reviewing drafts","desc":"Draft tax results ready; client is reviewing them for approval.","n":2},{"label":"Preparing submission","desc":"Client approved the draft; final tax forms are being prepared for AEAT.","n":5},{"label":"Completed filing","desc":"Quarterly tax filing successfully submitted and completed.","n":34}]},"waInbound":6267}
+    {"date":"2026-07-03","activos":496,"noMigrados":323,"migrados":173,"onboarding":17,"milestone":"All 173 migrated clients now fully activated (0 pending); 496 total active. 72,003 tax documents in system.","label":"Jul 3","taxDocs":72003,"daysToFiling":8.9,"waInbound":5673},
+    {"date":"2026-07-06","activos":497,"noMigrados":393,"migrados":104,"taxDocs":73899,"label":"Jul 6","milestone":"No client over-activations today; 497 total active (393 activated, 104 migrated pending activation). 73,899 tax documents stored.","waInbound":6267}
   ]
 };
-const BUILT = "Jul 6, 2026, 7:44 AM CDT";
+const BUILT = "Jul 6, 2026, 12:07 PM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
@@ -236,7 +236,7 @@ metrics.filter(m=>!m.chartOnly && !overlayKeys.has(m.key)).forEach(m=>{
   let overlayHtml = '';
   if (m.overlay) {                                    // fold the overlay metric's value into this card
     const oRow = [...days].reverse().find(d => d[m.overlay] != null);
-    if (oRow) overlayHtml = ` <span class="ofbase">&middot; ${fmt(oRow[m.overlay])} activated</span>`;
+    if (oRow) overlayHtml = ` <span class="ofbase">&middot; ${fmt(oRow[m.overlay])} soft-onboarded</span>`;
   }
   kpis.insertAdjacentHTML('beforeend', `
     <div class="kpi">
@@ -302,7 +302,7 @@ metrics.forEach((m, idx) => {
   card.innerHTML =
     `<h3><span class="dot" style="background:${col}"></span>${m.label}</h3>` +
     (m.explain ? `<p class="explain">${m.explain}</p>` : '') +
-    `<p class="now">Now <b style="color:var(--text)">${fmtV(m, lastRow[m.key])}</b>${hard(m, lastRow)}${m.share ? ` of ${fmt(totalBase)} customers` : ''}${oKey ? ` &middot; activated <b style="color:var(--text)">${fmt(lastRow[oKey])}</b>` : ''} &middot; 30-day low ${fmtV(m, d3.min(vals))} &middot; high ${fmtV(m, d3.max(vals))}</p>` +
+    `<p class="now">Now <b style="color:var(--text)">${fmtV(m, lastRow[m.key])}</b>${hard(m, lastRow)}${m.share ? ` of ${fmt(totalBase)} customers` : ''}${oKey ? ` &middot; soft-onboarded <b style="color:var(--text)">${fmt(lastRow[oKey])}</b>` : ''} &middot; 30-day low ${fmtV(m, d3.min(vals))} &middot; high ${fmtV(m, d3.max(vals))}</p>` +
     (oKey ? `<p class="legend"><span class="lg"><span class="lgline" style="border-top-color:${col}"></span>${m.label}</span><span class="lg"><span class="lgline dash" style="border-top-color:${oCol}"></span>${m.overlayLabel}</span></p>` : '');
   charts.appendChild(card);
 

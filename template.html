@@ -195,7 +195,7 @@ metrics.filter(m=>!m.chartOnly && !overlayKeys.has(m.key)).forEach(m=>{
   let overlayHtml = '';
   if (m.overlay) {                                    // fold the overlay metric's value into this card
     const oRow = [...days].reverse().find(d => d[m.overlay] != null);
-    if (oRow) overlayHtml = ` <span class="ofbase">&middot; ${fmt(oRow[m.overlay])} activated</span>`;
+    if (oRow) overlayHtml = ` <span class="ofbase">&middot; ${fmt(oRow[m.overlay])} soft-onboarded</span>`;
   }
   kpis.insertAdjacentHTML('beforeend', `
     <div class="kpi">
@@ -261,7 +261,7 @@ metrics.forEach((m, idx) => {
   card.innerHTML =
     `<h3><span class="dot" style="background:${col}"></span>${m.label}</h3>` +
     (m.explain ? `<p class="explain">${m.explain}</p>` : '') +
-    `<p class="now">Now <b style="color:var(--text)">${fmtV(m, lastRow[m.key])}</b>${hard(m, lastRow)}${m.share ? ` of ${fmt(totalBase)} customers` : ''}${oKey ? ` &middot; activated <b style="color:var(--text)">${fmt(lastRow[oKey])}</b>` : ''} &middot; 30-day low ${fmtV(m, d3.min(vals))} &middot; high ${fmtV(m, d3.max(vals))}</p>` +
+    `<p class="now">Now <b style="color:var(--text)">${fmtV(m, lastRow[m.key])}</b>${hard(m, lastRow)}${m.share ? ` of ${fmt(totalBase)} customers` : ''}${oKey ? ` &middot; soft-onboarded <b style="color:var(--text)">${fmt(lastRow[oKey])}</b>` : ''} &middot; 30-day low ${fmtV(m, d3.min(vals))} &middot; high ${fmtV(m, d3.max(vals))}</p>` +
     (oKey ? `<p class="legend"><span class="lg"><span class="lgline" style="border-top-color:${col}"></span>${m.label}</span><span class="lg"><span class="lgline dash" style="border-top-color:${oCol}"></span>${m.overlayLabel}</span></p>` : '');
   charts.appendChild(card);
 
