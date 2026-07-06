@@ -49,7 +49,7 @@
   .kpi .accent{height:3px;border-radius:3px;margin-bottom:13px;width:30px}
 
   /* chart grid */
-  .charts{display:grid;grid-template-columns:1fr;gap:18px}
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px}
   .card.full{grid-column:1 / -1}
   .section-head{grid-column:1 / -1;font-size:13px;text-transform:uppercase;letter-spacing:.08em;
@@ -288,10 +288,10 @@ metrics.forEach((m, idx) => {
   const line = d3.line().defined(d=>d!=null).x((d,i)=>x(dates[i])).y(d=>y(d)).curve(d3.curveMonotoneX);
   svg.append('path').datum(vals).attr('d', area).attr('fill', col).attr('opacity', 0.10);
   svg.append('path').datum(vals).attr('d', line).attr('fill', 'none').attr('stroke', col)
-    .attr('stroke-width', 2.5).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+    .attr('stroke-width', 1.5).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
   if (oVals) {
     svg.append('path').datum(oVals).attr('d', line).attr('fill', 'none').attr('stroke', oCol)
-      .attr('stroke-width', 2.5).attr('stroke-dasharray', '5 4').attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+      .attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4').attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
   }
 
   const fLine = svg.append('line').attr('class', 'focusline').attr('y1', P.t).attr('y2', H-P.b).style('opacity', 0);
@@ -332,19 +332,19 @@ charts.addEventListener('pointerleave', () => setActive(days.length-1));
 (function(){
   const box = document.getElementById('turnaround');
   if (!box) return;
+  box.className = 'card full';
+  charts.appendChild(box); // keep on its own full-width row, below the line charts
   const data = [
-    {label:'Average', days:148.4/24, txt:'6 days 4 hours (~148h)'},
-    {label:'Fastest', days:166/24,   txt:'6 days 22 hours'},
-    {label:'Slowest', days:196/24,   txt:'8 days 4 hours'},
+    {label:'Average', days:31.3/24, txt:'1 day 7 hours (~31h)'},
   ];
   box.innerHTML =
     `<h3>Time to presentation <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; 2026 Q2</span></h3>` +
     `<p class="explain">Time from when a client finishes uploading documents ("quarter over") until draft tax results are presented for approval.</p>`;
-  const W=1040, H=185, P={l:100, r:160, t:10, b:26}, max=9;
+  const W=1040, H=140, P={l:100, r:160, t:10, b:26}, max=2;
   const x = d3.scaleLinear().domain([0,max]).range([P.l, W-P.r]);
   const svg = d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%')
     .attr('role','img').attr('aria-label','Average time to presentation in days');
-  const ticks = d3.range(0, max+1, 2);
+  const ticks = d3.range(0, max+0.5, 0.5);
   svg.append('g').selectAll('line').data(ticks).join('line')
     .attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',P.t).attr('y2',H-P.b).attr('stroke','var(--line)');
   svg.append('g').selectAll('text').data(ticks).join('text').attr('class','glabel')
