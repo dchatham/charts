@@ -1,14 +1,13 @@
 {
   "report": "Candosa — Client Summary Daily Trend",
   "source": "candobro (Slack) — reconstructed from production database and event logs",
-  "lastUpdated": "2026-07-07",
+  "lastUpdated": "2026-07-10",
   "metrics": [
     {"key":"taxDocs","label":"Total tax documents in system","sub":"Cumulative documents stored","color":"#B07D2B","chartOnly":true,"explain":"Running total of all tax documents held in the system."},
     {"key":"waInbound","label":"Client WhatsApp messages (cumulative)","sub":"Running total of inbound messages","color":"#128C7E","chartOnly":true,"full":true,"explain":"Cumulative inbound messages received from clients over WhatsApp (running total across the window)."},
     {"key":"docsReviewed","label":"Documents reviewed & status changed","sub":"Daily count","color":"#3E7CB1","chartOnly":true,"full":true,"explain":"Tax documents reviewed and moved to a new status each day; the Jul 2 peak of 13,421 stands out against a typical few hundred per day."}
   ],
   "days": [
-    {"date":"2026-06-08","label":"Jun 8","activos":37,"onboarding":24,"migrados":0,"noMigrados":37,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Created: 3 new active clients.","uploads":18,"waClients":19,"waMessages":3826,"taxDocs":476,"daysToFiling":12.5,"waInbound":145},
     {"date":"2026-06-09","label":"Jun 9","activos":39,"onboarding":24,"migrados":0,"noMigrados":39,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Created: 2 new active clients.","uploads":9,"waClients":12,"waMessages":3869,"taxDocs":480,"daysToFiling":12.8,"waInbound":237},
     {"date":"2026-06-10","label":"Jun 10","activos":109,"onboarding":24,"migrados":69,"noMigrados":40,"trimestre":0,"pctOnboarded":3,"migAct":2,"migImp":70,"milestone":"First Migration: 70 migrated clients imported; 1 activated.","uploads":76,"waClients":15,"waMessages":3926,"taxDocs":6345,"daysToFiling":12.2,"waInbound":332},
     {"date":"2026-06-11","label":"Jun 11","activos":113,"onboarding":24,"migrados":61,"noMigrados":52,"trimestre":0,"pctOnboarded":19,"migAct":14,"migImp":74,"milestone":"Handoff Batch: 4 migrated clients imported; 12 activated.","uploads":30,"waClients":25,"waMessages":4015,"taxDocs":6575,"daysToFiling":11.9,"waInbound":437},
@@ -37,6 +36,7 @@
     {"date":"2026-07-04","label":"Jul 4","milestone":"Weekend.","taxDocs":72432,"waInbound":5806,"docsReviewed":147},
     {"date":"2026-07-05","label":"Jul 5","milestone":"Weekend.","taxDocs":72861,"waInbound":5938,"docsReviewed":112},
     {"date":"2026-07-06","activos":497,"noMigrados":393,"migrados":104,"taxDocs":73899,"label":"Jul 6","milestone":"No client over-activations today; 497 total active (393 activated, 104 migrated pending activation). 73,899 tax documents stored.","waInbound":6704,"docsReviewed":599},
-    {"date":"2026-07-07","label":"Jul 7","activos":504,"onboarding":18,"migrados":71,"noMigrados":433,"trimestre":34,"migAct":458,"migImp":529,"uploads":49,"waClients":97,"waMessages":22497,"taxDocs":76299,"waInbound":9262,"docsReviewed":349,"milestone":"No client over-activations today; 504 total registered (433 activated, 71 migrated pending). Q2 draft-results turnaround optimized to ~1.6 hours on higher gestor verification volume.","pctOnboarded":87}
+    {"date":"2026-07-07","label":"Jul 7","activos":504,"onboarding":18,"migrados":71,"noMigrados":433,"trimestre":34,"migAct":458,"migImp":529,"uploads":49,"waClients":97,"waMessages":22497,"taxDocs":76299,"waInbound":9262,"docsReviewed":349,"milestone":"No client over-activations today; 504 total registered (433 activated, 71 migrated pending). Q2 draft-results turnaround optimized to ~1.6 hours on higher gestor verification volume.","pctOnboarded":87},
+    {"date":"2026-07-10","label":"Jul 10","activos":501,"onboarding":17,"migrados":12,"noMigrados":484,"trimestre":142,"pctOnboarded":98,"migAct":517,"migImp":529,"uploads":58,"waClients":97,"waMessages":30034,"taxDocs":88041,"waInbound":12136,"docsReviewed":2205,"daysToFiling":0.1,"milestone":"No over-activations today; 12 of 529 migrated clients remain pending activation (98% activated). Pipeline: 192 clients in document upload, 145 in file processing, 4 in tax-draft calculation, 9 reviewing results, 8 awaiting final submission. 88,041 tax documents in system."}
   ]
 }
