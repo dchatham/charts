@@ -170,8 +170,6 @@ const DATA = {
     {"key":"docsReviewed","label":"Documents reviewed & status changed","sub":"Daily count","color":"#3E7CB1","chartOnly":true,"full":true,"explain":"Tax documents reviewed and moved to a new status each day; the Jul 2 peak of 13,421 stands out against a typical few hundred per day."}
   ],
   "days": [
-    {"date":"2026-06-09","label":"Jun 9","activos":39,"onboarding":24,"migrados":0,"noMigrados":39,"trimestre":0,"pctOnboarded":0,"migAct":0,"migImp":0,"milestone":"Created: 2 new active clients.","uploads":9,"waClients":12,"waMessages":3869,"taxDocs":480,"daysToFiling":12.8,"waInbound":237},
-    {"date":"2026-06-10","label":"Jun 10","activos":109,"onboarding":24,"migrados":69,"noMigrados":40,"trimestre":0,"pctOnboarded":3,"migAct":2,"migImp":70,"milestone":"First Migration: 70 migrated clients imported; 1 activated.","uploads":76,"waClients":15,"waMessages":3926,"taxDocs":6345,"daysToFiling":12.2,"waInbound":332},
     {"date":"2026-06-11","label":"Jun 11","activos":113,"onboarding":24,"migrados":61,"noMigrados":52,"trimestre":0,"pctOnboarded":19,"migAct":14,"migImp":74,"milestone":"Handoff Batch: 4 migrated clients imported; 12 activated.","uploads":30,"waClients":25,"waMessages":4015,"taxDocs":6575,"daysToFiling":11.9,"waInbound":437},
     {"date":"2026-06-12","label":"Jun 12","activos":108,"onboarding":24,"migrados":51,"noMigrados":57,"trimestre":0,"pctOnboarded":32,"migAct":24,"migImp":74,"milestone":"Activated: 10 migrated clients; 5 active clients closed.","uploads":25,"waClients":25,"waMessages":4122,"taxDocs":6622,"daysToFiling":12.1,"waInbound":534},
     {"date":"2026-06-13","label":"Jun 13","activos":108,"onboarding":24,"migrados":51,"noMigrados":57,"trimestre":0,"pctOnboarded":32,"migAct":24,"migImp":74,"milestone":"Weekend.","uploads":2,"waClients":0,"waMessages":4123,"taxDocs":6623,"daysToFiling":11.6,"waInbound":534},
@@ -199,10 +197,12 @@ const DATA = {
     {"date":"2026-07-05","label":"Jul 5","milestone":"Weekend.","taxDocs":72861,"waInbound":5938,"docsReviewed":112},
     {"date":"2026-07-06","activos":497,"noMigrados":393,"migrados":104,"taxDocs":73899,"label":"Jul 6","milestone":"No client over-activations today; 497 total active (393 activated, 104 migrated pending activation). 73,899 tax documents stored.","waInbound":6704,"docsReviewed":599},
     {"date":"2026-07-07","label":"Jul 7","activos":504,"onboarding":18,"migrados":71,"noMigrados":433,"trimestre":34,"migAct":458,"migImp":529,"uploads":49,"waClients":97,"waMessages":22497,"taxDocs":76299,"waInbound":9262,"docsReviewed":349,"milestone":"No client over-activations today; 504 total registered (433 activated, 71 migrated pending). Q2 draft-results turnaround optimized to ~1.6 hours on higher gestor verification volume.","pctOnboarded":87},
+    {"date":"2026-07-08","label":"Jul 8","activos":501,"onboarding":18,"migrados":11,"noMigrados":484,"trimestre":101,"pctOnboarded":97,"migAct":511,"migImp":529,"uploads":109,"waClients":137,"waMessages":25431,"taxDocs":78199,"waInbound":10459,"docsReviewed":1561,"daysToFiling":0.1,"milestone":"System validated and locked over 1,500 document changes as the Q2 tax-filing pipeline scaled up."},
+    {"date":"2026-07-09","label":"Jul 9","activos":501,"onboarding":17,"migrados":12,"noMigrados":484,"trimestre":142,"pctOnboarded":98,"migAct":517,"migImp":529,"uploads":99,"waClients":156,"waMessages":28152,"taxDocs":81041,"waInbound":11392,"docsReviewed":1359,"daysToFiling":0.1,"milestone":"Gestors completed and prepared over 40 Q2 2026 tax-draft presentations for client review."},
     {"date":"2026-07-10","label":"Jul 10","activos":501,"onboarding":17,"migrados":12,"noMigrados":484,"trimestre":142,"pctOnboarded":98,"migAct":517,"migImp":529,"uploads":58,"waClients":97,"waMessages":30034,"taxDocs":88041,"waInbound":12136,"docsReviewed":2205,"daysToFiling":0.1,"milestone":"No over-activations today; 12 of 529 migrated clients remain pending activation (98% activated). Pipeline: 192 clients in document upload, 145 in file processing, 4 in tax-draft calculation, 9 reviewing results, 8 awaiting final submission. 88,041 tax documents in system."}
   ]
 };
-const BUILT = "Jul 10, 2026, 11:02 PM CDT";
+const BUILT = "Jul 12, 2026, 9:47 AM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
