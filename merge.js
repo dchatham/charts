@@ -45,6 +45,31 @@ data.days.sort((a, b) => a.date.localeCompare(b.date));   // YYYY-MM-DD sorts ch
 if (data.days.length > WINDOW) data.days = data.days.slice(-WINDOW);
 data.lastUpdated = data.days[data.days.length - 1].date;
 
+// Auto-derive the "completed filing (cumulative)" chart from the cumulative
+// `trimestre` (quarter submitted/completed) series — candobro doesn't send it
+// as its own field. Days where candobro didn't report `trimestre` are filled by
+// linear interpolation between the surrounding known values so the line stays
+// continuous. Real `trimestre` values are never modified.
+{
+  const D = data.days, N = D.length;
+  const cum = D.map(d => (typeof d.trimestre === 'number' ? d.trimestre : null));
+  let a = 0;
+  while (a < N) {
+    if (cum[a] == null) { a++; continue; }
+    let b = a + 1;
+    while (b < N && cum[b] == null) b++;
+    if (b < N && b > a + 1) {                              // gap of unreported days between a and b
+      const span = b - a, from = cum[a], to = cum[b];
+      for (let k = a + 1; k < b; k++) cum[k] = Math.round(from + (to - from) * (k - a) / span);
+    }
+    a = b;
+  }
+  for (let k = 0; k < N; k++) {
+    if (cum[k] == null) delete D[k].completedCumulative;   // no data before first known value
+    else D[k].completedCumulative = cum[k];
+  }
+}
+
 // Serialize with one metric/day per line so daily diffs stay small and readable.
 const s = '{\n' +
   `  "report": ${JSON.stringify(data.report)},\n` +

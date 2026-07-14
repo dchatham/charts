@@ -63,6 +63,9 @@ That merges the day into the rolling window, rebuilds `index.html`, commits
 
 - **`pctOnboarded` (activation rate) is derived automatically** from `migAct` /
   `migImp` — you don't need it from candobro.
+- **`completedCumulative` (completed-filing chart) is derived automatically** by
+  `merge.js` from the cumulative `trimestre` series (days candobro didn't report
+  `trimestre` are gap-filled by interpolation) — you don't need it from candobro.
 - **Partial rows are safe.** Any field you leave out just shows a gap for that
   day; re-run with the same `date` later to fill it in without disturbing the
   other fields.
