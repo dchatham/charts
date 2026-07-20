@@ -202,7 +202,7 @@ const DATA = {
     {"date":"2026-07-20","activos":516,"onboarding":24,"trimestre":454,"taxDocs":10953,"daysToFiling":5.1,"milestone":"No client over-activations today (1 client activated, criteria fully valid). 516 total active accounts — 492 already activated (active IAE codes) and 24 in onboarding. 5 migrated clients imported but not yet activated. Q2 tax-filing pipeline (being filed today): 4 in document upload, 29 in document review, 2 in draft results, 5 in client approval, 6 in final filing prep, 454 completed. (New Q3 period: 512 in document upload, 4 in document review.) Avg time from documents-finished-uploading (quarter over) to draft results presented for approval: 5.1 days (~121.5 hours). NOTE: candobro re-scoped tax-document counting again — taxDocs now 10,924 (3,005 official modelos + 7,919 tax-agency requirement notices), not directly comparable to prior days. Jul 14–19 not backfilled (candobro was unresponsive that week).","label":"Jul 20","completedCumulative":454,"waInbound":16078}
   ]
 };
-const BUILT = "Jul 20, 2026, 11:12 AM CDT";
+const BUILT = "Jul 20, 2026, 11:16 AM CDT";
 
 const fmt = n => n.toLocaleString('en-US');
 const fmtV = (m, n) => fmt(n) + (m.unit || '');
@@ -376,16 +376,16 @@ charts.addEventListener('pointerleave', () => setActive(days.length-1));
   box.className = 'card full';
   charts.appendChild(box); // keep on its own full-width row, below the line charts
   const data = [
-    {label:'Average', days:31.3/24, txt:'1 day 7 hours (~31h)'},
+    {label:'Average', days:5.1, txt:'5.1 days (~122h)'},
   ];
   box.innerHTML =
     `<h3>Time to presentation <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; 2026 Q2</span></h3>` +
     `<p class="explain">Time from when a client finishes uploading documents ("quarter over") until draft tax results are presented for approval.</p>`;
-  const W=1040, H=140, P={l:100, r:160, t:10, b:26}, max=2;
+  const W=1040, H=140, P={l:100, r:160, t:10, b:26}, max=6;
   const x = d3.scaleLinear().domain([0,max]).range([P.l, W-P.r]);
   const svg = d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%')
     .attr('role','img').attr('aria-label','Average time to presentation in days');
-  const ticks = d3.range(0, max+0.5, 0.5);
+  const ticks = d3.range(0, max+1, 1);
   svg.append('g').selectAll('line').data(ticks).join('line')
     .attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',P.t).attr('y2',H-P.b).attr('stroke','var(--line)');
   svg.append('g').selectAll('text').data(ticks).join('text').attr('class','glabel')

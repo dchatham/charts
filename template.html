@@ -335,16 +335,16 @@ charts.addEventListener('pointerleave', () => setActive(days.length-1));
   box.className = 'card full';
   charts.appendChild(box); // keep on its own full-width row, below the line charts
   const data = [
-    {label:'Average', days:31.3/24, txt:'1 day 7 hours (~31h)'},
+    {label:'Average', days:5.1, txt:'5.1 days (~122h)'},
   ];
   box.innerHTML =
     `<h3>Time to presentation <span style="color:var(--faint);font-weight:400;font-size:12px">&middot; 2026 Q2</span></h3>` +
     `<p class="explain">Time from when a client finishes uploading documents ("quarter over") until draft tax results are presented for approval.</p>`;
-  const W=1040, H=140, P={l:100, r:160, t:10, b:26}, max=2;
+  const W=1040, H=140, P={l:100, r:160, t:10, b:26}, max=6;
   const x = d3.scaleLinear().domain([0,max]).range([P.l, W-P.r]);
   const svg = d3.select(box).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%')
     .attr('role','img').attr('aria-label','Average time to presentation in days');
-  const ticks = d3.range(0, max+0.5, 0.5);
+  const ticks = d3.range(0, max+1, 1);
   svg.append('g').selectAll('line').data(ticks).join('line')
     .attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',P.t).attr('y2',H-P.b).attr('stroke','var(--line)');
   svg.append('g').selectAll('text').data(ticks).join('text').attr('class','glabel')
